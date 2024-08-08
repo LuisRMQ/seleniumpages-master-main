@@ -12,21 +12,32 @@ class BaseScraper:
         self.scraper = SeleniumWrapper()
         self.excel_exporter = ExcelExporter(self.output_file)
 
+        if hasattr(self, 'columns'):
+            self.excel_exporter.set_columns(self.columns)
+        elif hasattr(self, 'fields'):
+            self.excel_exporter.set_fields(self.fields)
+
     def load_config(self):
         with open(self.config_file) as f:
             config = json.load(f)
-        site_config = config[self.config_section]
+        site_config = config[self.config_key]
         self.url = site_config["url"]
         self.output_file = site_config["output_file"]
         self.actions = site_config["actions"]
-        self.fields = site_config.get("fields", {})
-        self.table_config = site_config.get("table", {})
+
+        if 'table' in site_config:
+            self.table_config = site_config["table"]
+            self.columns = [col.get('name') for col in self.table_config.get("columns", [])]
+        else:
+            self.fields = site_config.get("fields", {})
+
 
     def extract_and_export_data(self):
         try:
             self.scraper.open_url(self.url)
             self._perform_actions(self.actions)
-            self.export_data()
+            self._scrape_data()
+            self.excel_exporter.export_to_excel()
         finally:
             self.scraper.close_driver()
 
@@ -35,8 +46,7 @@ class BaseScraper:
             selector = action.get('selector')
             selector_name = action.get('selector_name')
             act = action.get('action')
-            value = action.get('value', None)
-            optional = action.get('optional', False)
+            value = action.get('value')
 
             try:
                 if act == 'send_keys':
@@ -54,15 +64,14 @@ class BaseScraper:
                         EC.presence_of_element_located((getattr(By, selector), selector_name))
                     )
                 elif act == 'scroll_into_view':
-                    element = WebDriverWait(self.scraper.driver, 10).until(
-                        EC.presence_of_element_located((getattr(By, selector), selector_name))
-                    )
+                    element = self.scraper.find_element(getattr(By, selector), selector_name)
                     self.scraper.execute_script("arguments[0].scrollIntoView(true);", element)
+                elif act == 'guardarDatos':
+                    self._scrape_data()
                 else:
                     print(f"Acción '{act}' no reconocida.")
             except Exception as e:
-                if not optional:
-                    print(f"Error al realizar la acción '{act}': {e}")
+                print(f"Error al realizar la acción '{act}': {e}")
 
-    def export_data(self):
-        pass
+    def _scrape_data(self):
+        raise NotImplementedError("Subclasses must implement _scrape_data method.")

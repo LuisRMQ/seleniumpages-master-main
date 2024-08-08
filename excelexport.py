@@ -6,6 +6,9 @@ class ExcelExporter:
         self.data = []
         self.columns = []
 
+    def set_fields(self, fields):
+        self.columns = list(fields.keys())
+
     def set_columns(self, columns):
         self.columns = columns
 

@@ -1,41 +1,44 @@
 {
-    "clima": {
-      "url": "https://www.meteored.mx/clima_Torreon-America+Norte-Mexico-Coahuila-MMTC-1-22375.html",
-      "output_file": "Clima.xlsx",
-      "elements": [
-          {
-          "action": "scroll_into_view",
-          "selector": "CLASS_NAME",
-          "selector_name": "flex-r.dos-semanas.noche-nuevo"
-        },
-        {
-          "action": "find_elements",
-          "selector": "XPATH",
-          "selector_name": "//li[contains(@class, 'grid-item dia')]",
-          "fields": [
-            {
-              "field_name": "Dia",
-              "selector": "CLASS_NAME",
-              "selector_name": "subtitle-m"
-            },
-            {
-              "field_name": "TempMinima",
-              "selector": "CLASS_NAME",
-              "selector_name": "min.changeUnitT"
-            },
-            {
-              "field_name": "TempMaxima",
-              "selector": "CLASS_NAME",
-              "selector_name": "max.changeUnitT"
-            },
-            {
-              "field_name": "ProbabilidadDeLluvia",
-              "selector": "CLASS_NAME",
-              "selector_name": "txt-strng.probabilidad.center"
-            }
-          ]
-        }
-      ]
-    }
+  "clima": {
+    "url": "https://www.meteored.mx/clima_Torreon-America+Norte-Mexico-Coahuila-MMTC-1-22375.html",
+    "output_file": "Clima.xlsx",
+    "actions": [
+      {
+        "action": "scroll_into_view",
+        "selector": "CLASS_NAME",
+        "selector_name": "flex-r.dos-semanas.noche-nuevo"
+      },
+      {
+        "action": "find_elements",
+        "selector": "XPATH",
+        "selector_name": "//li[contains(@class, 'grid-item dia')]"
+      },
+      {
+        "action": "guardarDatos",
+        "selector": "div"
+      }
+    ],
+    "fields": [
+      {
+        "field_name": "Dia",
+        "selector": "CLASS_NAME",
+        "selector_name": "subtitle-m"
+      },
+      {
+        "field_name": "TempMinima",
+        "selector": "CLASS_NAME",
+        "selector_name": "min.changeUnitT"
+      },
+      {
+        "field_name": "TempMaxima",
+        "selector": "CLASS_NAME",
+        "selector_name": "max.changeUnitT"
+      },
+      {
+        "field_name": "ProbabilidadDeLluvia",
+        "selector": "CLASS_NAME",
+        "selector_name": "txt-strng.probabilidad.center"
+      }
+    ]
   }
-  
+}
