@@ -1,0 +1,31 @@
+{
+  "mercado_libre": {
+    "url": "https://www.mercadolibre.com.mx/",
+    "output_file": "Productos.xlsx",
+    "search_query": "Computadoras",
+    "actions": [
+      {
+        "action": "send_keys",
+        "selector": "ID",
+        "selector_name": "cb1-edit",
+        "value": "Computadoras"
+      },
+      {
+        "action": "click",
+        "selector": "CLASS_NAME",
+        "selector_name": "nav-icon-search"
+      },
+      {
+        "action": "wait_for_element",
+        "selector": "CLASS_NAME",
+        "selector_name": "ui-search-results"
+      }
+    ],
+    "fields": {
+      "title": "CLASS_NAME",
+      "title_selector": "ui-search-item__title",
+      "price": "CLASS_NAME",
+      "price_selector": "andes-money-amount__fraction"
+    }
+  }
+}

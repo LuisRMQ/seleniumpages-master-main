@@ -1,0 +1,37 @@
+{
+    "beisbol": {
+      "url": "https://www.milb.com/mexican",
+      "output_file": "Beisbol.xlsx",
+      "actions": [
+        {
+          "action": "click",
+          "selector": "XPATH",
+          "selector_name": "//button[@id='onetrust-accept-btn-handler']"
+        },
+        {
+          "action": "scroll_into_view",
+          "selector": "CLASS_NAME",
+          "selector_name": "mini__toggled-table__container"
+        },
+        {
+          "action":"guardarDatos",
+          "selector":"Tabla"
+        }
+        
+      ],
+      "table": {
+        "tbody_selector": "TAG_NAME",
+        "tbody_name": "tbody",
+        "row_selector": "TAG_NAME",
+        "row_name": "tr",
+        "columns": [
+          {"data_col": "0"},
+          {"data_col": "1"},
+          {"data_col": "2"},
+          {"data_col": "3"},
+          {"data_col": "4"}
+        ]
+      }
+    }
+  }
+  
